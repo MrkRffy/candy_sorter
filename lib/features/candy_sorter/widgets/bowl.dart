@@ -1,6 +1,8 @@
 import 'package:candy_sorter/features/candy_sorter/widgets/colored_svg.dart';
 import 'package:flutter/material.dart';
 
+import '../model/candy.dart';
+
 class Bowl extends StatelessWidget {
   const Bowl({
     Key? key,

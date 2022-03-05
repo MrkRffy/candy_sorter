@@ -28,7 +28,7 @@ class _GamePageState extends State<GamePage> {
         Colors.cyan,
         Colors.orange,
       ],
-      numberOfCandies: 100,
+      numberOfCandies: 2,
       gameArea: Size(
         MediaQuery.of(context).size.width,
         MediaQuery.of(context).size.height / 2,
@@ -46,33 +46,40 @@ class _GamePageState extends State<GamePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: Stack(
         children: [
-          ElevatedButton(
-            onPressed: _createGame,
-            child: const Text('New Game'),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          Column(
             children: [
-              Text(
-                'Candies left: ??',
-                style: Theme.of(context).textTheme.headline6,
+              ElevatedButton(
+                onPressed: _createGame,
+                child: const Text('New Game'),
               ),
-              Text(
-                'Candies sorted: ??',
-                style: Theme.of(context).textTheme.headline6,
-              )
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    'Candies left: ${game.candies.length}',
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  Text(
+                    'Candies sorted: ${game.sortedCandiesCount}',
+                    style: Theme.of(context).textTheme.headline6,
+                  )
+                ],
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 2,
+              ),
+              Expanded(
+                child: BowlArea(
+                  game: game,
+                  onRemoveCandy: _onRemoveCandy,
+                ),
+              ),
             ],
           ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 2,
-            child: CandyArea(
-              game: game,
-            ),
-          ),
-          Expanded(
-            child: BowlArea(game: game),
+          CandyArea(
+            game: game,
           ),
         ],
       ),

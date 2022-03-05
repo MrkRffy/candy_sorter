@@ -6,9 +6,11 @@ class BowlArea extends StatelessWidget {
   const BowlArea({
     Key? key,
     required this.game,
+    this.onRemoveCandy,
   }) : super(key: key);
 
   final Game game;
+  final Function(Candy)? onRemoveCandy;
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +19,15 @@ class BowlArea extends StatelessWidget {
       runAlignment: WrapAlignment.spaceEvenly,
       children: [
         for (var i = 0; i < game.colors.length; i++)
-          Bowl(
-            color: game.colors[i],
+          DragTarget<Candy>(
+            builder: (context, candidateData, rejectedData) => Bowl(
+              color: game.colors[i],
+            ),
+            onAccept: (candy) {
+              if (candy.color == game.colors[i]) {
+                onRemoveCandy?.call(candy);
+              }
+            },
           )
       ],
     );
